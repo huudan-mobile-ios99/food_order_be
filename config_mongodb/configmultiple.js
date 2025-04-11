@@ -3,8 +3,8 @@
 const mongoose = require('mongoose');
 const username = "LeHuuDan99";
 const password = "3lyIxDXEzwCtzw2i";
-const database = "Toilet";
-const database2 = "FeedbackUser";
+const database = "FoodOrder";
+const database2 = "FoodOrder2";
 const URL = `mongodb+srv://${username}:${password}@clustervegas.ym3zd.mongodb.net/${database}?retryWrites=true&w=majority`;
 const URL2 = `mongodb+srv://${username}:${password}@clustervegas.ym3zd.mongodb.net/${database2}?retryWrites=true&w=majority`;
 

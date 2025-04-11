@@ -1,12 +1,12 @@
-var express = require('express')
-var morgan = require('morgan');
-var app = express();
-var path = require('path')
+const express = require('express')
+const morgan = require('morgan');
+const app = express();
+const path = require('path')
 const mongoose = require('mongoose');
-var cors = require('cors');
-var router = express.Router();
+const cors = require('cors');
+const router = express.Router();
 app.use(express.json());
-var crypto = require('crypto')
+const crypto = require('crypto')
 const fs = require('fs');
 const bodyparser = require('body-parser');
 const Excel = require('exceljs');
@@ -20,7 +20,7 @@ app.use(cors({
   origin: '*'
 }));
 
-const { db1, db2 } = require('./config_mongodb/configmain');
+const { db1, db2 } = require('./config_mongodb/configmultiple');
 db1.once('open', () => {
   console.log('Connection to db1 established successfully');
 });
@@ -29,7 +29,6 @@ db2.once('open', () => {
 });
 
 
-const axios = require('axios');
 app.use('/', router);
 //USER APIs
 const userRoute = require('./APIs/user_api');
@@ -59,18 +58,12 @@ app.get('/files', upload_service.getListFiles);
 app.get("/files/:name", upload_service.download);
 
 
-
-
-var port = process.env.PORT || 8095;
+const port = process.env.PORT || 8095;
 app.listen(port);
 console.log('app running at port toilet server: ' + port);
 
 
-//APIs USERS
-
-
-
-// RUN WEB
+//WEB RUN STATIC
 const compression = require('compression');
 app.use(compression());
 const oneDay = 86400000; // 24 hours in milliseconds
@@ -81,12 +74,14 @@ router.get('/', (request, response) => {
 });
 
 
-//WEB RESOURCE
+//WEB USE RESOURCE
 app.use(express.static('web/web'));
 app.use(express.static('web/web/assets'));
 
 
-//FIREBASE 
+
+
+//FIREBASE
 var admin = require('./firebase_config');
 const notification_options = {
   priority: "high",
@@ -98,6 +93,7 @@ const { formatDatetime, getCurrentDatetime } = require('./datetimeUtils');
 const tokenModel = require('./model/token')
 let messageCounter = 0;
 
+//APIs Firebase Noti
 app.post('/firebase/notification/all', async (req, res) => {
   try {
     const tokens = await tokenModel.find({}).exec();
@@ -152,9 +148,6 @@ app.post('/firebase/notification/all', async (req, res) => {
 });
 
 
-
-
-
 app.post('/firebase/notification', (req, res) => {
   const registrationToken = req.body.registrationToken;
   const message = req.body.message;
@@ -180,13 +173,10 @@ app.post('/firebase/notification', (req, res) => {
       sound: "iphone_notification.aiff"
     },
   };
-
-
   // Check if the payload has either "data" or "notification" property
   if (!payload.data && !payload.notification) {
     return res.status(400).send("Invalid payload. Must have 'data' or 'notification'.");
   }
-
   admin.admin_role.messaging().sendToDevice(registrationToken, payload, options)
     .then(response => {
       console.log('Notification sent successfully:', response);
@@ -204,64 +194,16 @@ app.post('/firebase/notification', (req, res) => {
     });
 });
 
-
-
-
-//NOT WORK
-app.post('/firebase/notification2', async (req, res) => {
-  const deviceToken = req.body.registrationToken;
-  const message = req.body.message;
-
-  const notificationData = {
-    to: deviceToken,
-    notification: {
-      title: 'Notification Title',
-      body: 'Notification Body',
-    },
-    data: {
-      message: message,
-    },
-  };
-
-  try {
-    const response = await axios.post('https://fcm.googleapis.com/fcm/send', notificationData, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `key=${serverKey}`,
-      },
-    });
-
-    console.log('Notification sent successfully:', response.data);
-    res.status(200).json({ success: true, message: 'Notification sent successfully' });
-  } catch (error) {
-    console.error('Error sending notification:', error.message);
-    res.status(500).json({ success: false, message: 'Error sending notification' });
-  }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.post("/send", function (req, res) {
   const receivedToken = req.body.fcmToken;
 
   const message = {
     notification: {
-      title: "Notif",
-      body: 'This is a Test Notification'
+      title: "NotificationTest Title",
+      body: 'Notification Test Body'
     },
     token: "YOUR FCM TOKEN HERE",
   };
-
   getMessaging()
     .send(message)
     .then((response) => {
@@ -475,7 +417,7 @@ app.get('/export_feedback_status_all', async (req, res) => {
 
     feedback.forEach((item, index) => {
       const rowItem2 = sheet2.addRow([index + 1, item.id, item.star,
-        Array.isArray(item.experience) ? item.experience.join(', ').replace(/[\[\]"]/g, '') : null, 
+        Array.isArray(item.experience) ? item.experience.join(', ').replace(/[\[\]"]/g, '') : null,
          item.content, item.isprocess, item.processcreateAt ? item.processcreateAt.toLocaleString() : '', item.createdAt ? item.createdAt.toLocaleString() : '']);
 
       if (item.isprocess) {
@@ -524,7 +466,7 @@ app.get('/export_feedback_status_all', async (req, res) => {
 
 
 
-//LIST APP FEEDBACK WITH STATUS 
+//LIST APP FEEDBACK WITH STATUS
 app.get('/list_feedback_status', async (req, res) => {
   feedbackModel2.find({})
     .sort({ createdAt: -1 }) // Sort by createdAt in descending order

@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var db = require('../config_mongodb/configmain'); // Import the MongoDB connection
+const mongoose = require('mongoose');
+const db = require('../config_mongodb/configmultiple'); // Import the MongoDB connection
 const moment = require('moment-timezone');
 const { ObjectId } = mongoose.Types;
 
@@ -11,7 +11,7 @@ const FeedBackSchema = new mongoose.Schema({
     driver:{
         required:true,type:String
     },
-    
+
     star: {
         required: true,
         type: Number,

@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 const moment = require('moment-timezone');
-var db = require('../config_mongodb/configmain'); // Import the MongoDB connection
+const db = require('../config_mongodb/configmultiple'); // Import the MongoDB connection
 
 const FeedbackCustomerV2Schema = new mongoose.Schema({
-    
+
     statusName: {
         required: true,
         type: String,
@@ -71,7 +71,7 @@ const FeedbackCustomerV2Schema = new mongoose.Schema({
         type:String,
         default:"testing"
     }
-    
+
 });
 
 const FeedbackCustomerV2 = db.db2.model("feedback_customers_v2", FeedbackCustomerV2Schema);

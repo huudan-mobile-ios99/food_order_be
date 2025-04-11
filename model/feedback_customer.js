@@ -1,7 +1,6 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const moment = require('moment-timezone');
-const { ObjectId } = mongoose.Types;
-var db = require('../config_mongodb/configmain'); // Import the MongoDB connection
+const db = require('../config_mongodb/configmultiple'); // Import the MongoDB connection
 
 const FeedbackCustomerSchema = new mongoose.Schema({
     id:{
@@ -28,7 +27,7 @@ const FeedbackCustomerSchema = new mongoose.Schema({
         type:String,
         default:"testing"
     }
-    
+
 });
 
 const FeedbackCustomer = db.db2.model("feedback_customers", FeedbackCustomerSchema);

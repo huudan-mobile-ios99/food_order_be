@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var db = require('../config_mongodb/configmain'); // Import the MongoDB connection
+const db = require('../config_mongodb/configmultiple'); // Import the MongoDB connection
 
 const ImageSchema = new mongoose.Schema({
    caption: {
@@ -14,7 +14,7 @@ const ImageSchema = new mongoose.Schema({
         required: true,
         type: String,
     },
-   
+
     createdAt: {
         default: Date.now(),
         type: Date,

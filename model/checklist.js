@@ -1,12 +1,11 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const moment = require('moment-timezone');
-
-var db = require('../config_mongodb/configmain'); // Import the MongoDB connection
+const db = require('../config_mongodb/configmultiple'); // Import the MongoDB connection
 
 const { ObjectId } = mongoose.Types;
 
 const CheckListSchema = new mongoose.Schema({
-    
+
     title:{
         required:true,type:String
     },
@@ -27,7 +26,7 @@ const CheckListSchema = new mongoose.Schema({
         required:true,type:String,
     },
     updateAt:{
-        default: () => moment().tz('Asia/Singapore'), 
+        default: () => moment().tz('Asia/Singapore'),
         type: Date,
     }
 

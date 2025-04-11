@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 const moment = require('moment-timezone');
 const { ObjectId } = mongoose.Types;
-var db = require('../config_mongodb/configmain'); // Import the MongoDB connection
+const db = require('../config_mongodb/configmultiple'); // Import the MongoDB connection
 
 
 const FeedbackCustomerItemSchema = new mongoose.Schema({
@@ -20,7 +20,7 @@ const FeedbackCustomerItemSchema = new mongoose.Schema({
         default: () => moment().tz("Asia/Bangkok").toLocaleString(),//correct
         required:true,type:String,
     },
-    
+
 });
 
 const FeedbackCustomerItem = db.db2.model("feedback_customer_items", FeedbackCustomerItemSchema);

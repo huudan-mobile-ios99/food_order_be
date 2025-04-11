@@ -1,10 +1,10 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const { ObjectId } = mongoose.Types;
-var db = require('../config_mongodb/configmain'); // Import the MongoDB connection
+const db = require('../config_mongodb/configmultiple'); // Import the MongoDB connection
 
 const UserSchema = new mongoose.Schema({
-    
+
     username_en:{
         type:String,unique: true,
     },

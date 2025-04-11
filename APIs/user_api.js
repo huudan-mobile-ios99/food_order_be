@@ -2,15 +2,14 @@ const express = require('express');
 const router = express.Router();
 const userModel = require('../model/user');
 const app = express();
-// const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// User registration
+
 // User registration
 router.post('/register', async (req, res) => {
   try {
     const { username, password, username_en, image_url, isActive } = req.body;
-    
+
     // Check if the username or username_en already exists
     const existingUser = await userModel.findOne({ $or: [{ username }, { username_en }] });
     if (existingUser) {
@@ -71,7 +70,7 @@ router.get('/list', async (req, res) => {
     res.status(500).json({ error: 'Registration failed' });
     }
     });
- 
+
 // User registration with pagination
 router.get('/list/paging', async (req, res) => {
   const { start = 0, limit = 10 } = req.query;
@@ -97,36 +96,36 @@ router.get('/list/paging', async (req, res) => {
   } catch (error) {
   res.status(500).json({ message: 'Registration failed' });
   }
-  });   
-    
-    
+  });
+
+
     //UPDATE user by _id
     router.put('/update/:id', async (req, res) => {
         try {
           const userId = req.params.id;
           const { username, password, username_en,image_url,is_active } = req.body;
-      
+
           // Check if the user exists
           const existingUser = await userModel.findById(userId);
           if (!existingUser) {
             return res.status(404).json({ message: 'User not found' });
           }
-      
+
           // Update user fields
           existingUser.username = username || existingUser.username;
           existingUser.username_en = username_en || existingUser.username_en;
           existingUser.image_url = image_url || existingUser.image_url;
           existingUser.isActive = is_active || existingUser.isActive;
-      
+
           // Update password if provided
           if (password) {
             const hashedPassword = await bcrypt.hash(password, 10);
             existingUser.password = hashedPassword;
           }
-      
+
           // Save the updated user
           await existingUser.save();
-      
+
           res.status(200).json({ status: true, message: 'User updated successfully' });
         } catch (error) {
           res.status(500).json({ message: 'Update failed' });
@@ -137,7 +136,7 @@ router.get('/list/paging', async (req, res) => {
 router.put('/update_active/:id', async (req, res) => {
   try {
     const userId = req.params.id;
-    
+
     // Check if the user exists
     const existingUser = await userModel.findById(userId);
     if (!existingUser) {
@@ -154,7 +153,7 @@ router.put('/update_active/:id', async (req, res) => {
 
     // Save the updated user
     await existingUser.save();
-    
+
     res.status(200).json({ status: true, message: 'User isActive status updated successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Update failed' });
@@ -166,16 +165,16 @@ router.put('/update_active/:id', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
     try {
       const userId = req.params.id;
-  
+
       // Check if the user exists
       const existingUser = await userModel.findById(userId);
       if (!existingUser) {
         return res.status(404).json({ message: 'User not found' });
       }
-  
+
       // Delete the user
       await existingUser.remove();
-  
+
       res.status(200).json({ status: true, message: 'User deleted successfully' });
     } catch (error) {
       res.status(500).json({ message: 'Delete failed' });

@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
 const { ObjectId } = mongoose.Types;
-var db = require('../config_mongodb/configmain'); // Import the MongoDB connection
+const db = require('../config_mongodb/configmultiple'); // Import the MongoDB connection
 
 
 const FeedBackSchema = new mongoose.Schema({
@@ -13,7 +13,7 @@ const FeedBackSchema = new mongoose.Schema({
     driver:{
         required:true,type:String
     },
-    
+
     star: {
         required: true,
         type: Number,
@@ -37,7 +37,7 @@ const FeedBackSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'trips', // Make sure it matches the model name 'trips' defined in mongoose.model
     },
-    
+
     createdAt: {
         type: Date,
         default: () => {
