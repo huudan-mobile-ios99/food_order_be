@@ -2,14 +2,17 @@ const express = require("express");
 const router = express.Router();
 const FoodModel = require("../model/food");
 
+router.get("/test", (req, res) => {
+  res.send("Food route is working");
+});
 // User registration
 router.post('/register', async (req, res) => {
   try {
     const { code, name, level, countryCode, note,imageUrl,isActive,isSpicy,isHotelFood } = req.body;
     // Create a new user if no duplicates found
-    const food = new FoodModel({ code, username, username_en, image_url, role });
+    const food = new FoodModel({ code, name, level, countryCode, note,imageUrl,isActive,isSpicy,isHotelFood });
     await food.save();
-    res.json({ message: 'Food created successfully' });
+    res.json({ message: 'Food created successfully' ,data:food});
   } catch (error) {
     console.error(error); // Log the error for debugging
     res.status(500).json({ message: 'Registration failed' });
@@ -21,7 +24,7 @@ router.get("/list", async (req, res) => {
   try {
     FoodModel
       .find()
-      .sort({ name: 1  }) // Sort by createdAt in descending order
+      .sort({ createAt: 1  }) // Sort by createdAt in descending order
       .exec(function (err, data) {
         if (err) {
           console.log(err);

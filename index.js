@@ -30,6 +30,10 @@ db2.once('open', () => {
 
 
 app.use('/', router);
+//FOOD APIs
+const foodRoute = require('./APIs/food_api');
+app.use('/food', foodRoute);
+
 //USER APIs
 const userRoute = require('./APIs/user_api');
 app.use('/user', userRoute);

@@ -25,7 +25,8 @@ const FoodSchema = new mongoose.Schema({
     },
     image_url:{
         type:String,
-        default:"https://i.pinimg.com/564x/7f/c4/c6/7fc4c6ecc7738247aac61a60958429d4.jpg"
+        unique:false,
+        default:"https://i.sstatic.net/y9DpT.jpg"
     },
     createdAt: {
         default: Date.now(),
